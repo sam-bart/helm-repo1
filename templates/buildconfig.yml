@@ -1,36 +1,36 @@
 kind: BuildConfig
-apiVersion: v1
+apiVersion: build.openshift.io/v1
 metadata:
-  name: '{{ .Values.NAME }}'
+  name: {{ .Values.NAME }}
   annotations:
     description: Defines how to build the application
-    template.alpha.openshift.io/wait-for-ready: 'true'
+    template.alpha.openshift.io/wait-for-ready: true
 spec:
   source:
     type: Git
     git:
-      uri: '{{ .Values.SOURCE_REPOSITORY_URL }}'
-      ref: '{{ .Values.SOURCE_REPOSITORY_REF }}'
-    contextDir: '{{ .Values.CONTEXT_DIR }}'
+      uri: {{ .Values.SOURCE_REPOSITORY_URL | quote }}
+      ref: {{ .Values.SOURCE_REPOSITORY_REF | quote }}
+    contextDir: {{ .Values.CONTEXT_DIR | quote }}
   strategy:
     type: Source
     sourceStrategy:
       from:
         kind: ImageStreamTag
-        namespace: '{{ .Values.NAMESPACE }}'
-        name: 'python:{{ .Values.PYTHON_VERSION }}'
+        namespace: {{ .Values.NAMESPACE | quote00 }}
+        name: python:{{ .Values.PYTHON_VERSION }}
       env:
         - name: PIP_INDEX_URL
-          value: '{{ .Values.PIP_INDEX_URL }}'
+          value: {{ .Values.PIP_INDEX_URL | quote }}
   output:
     to:
       kind: ImageStreamTag
-      name: '{{ .Values.NAME }}:latest'
+      name: {{ .Values.NAME }}:latest
   triggers:
     - type: ImageChange
     - type: ConfigChange
     - type: GitHub
       github:
-        secret: '{{ .Values.GITHUB_WEBHOOK_SECRET }}'
+        secret: {{ .Values.GITHUB_WEBHOOK_SECRET }}
   postCommit:
     script: ./manage.py test

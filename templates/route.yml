@@ -1,9 +1,9 @@
 kind: Route
-apiVersion: v1
+apiVersion: route.opemshift.io/v1
 metadata:
-  name: '{{ .Values.NAME }}'
+  name: {{ .Values.NAME }}
 spec:
-  host: '{{ .Values.APPLICATION_DOMAIN }}'
+  host: {{ .Values.APPLICATION_DOMAIN }}
   to:
     kind: Service
-    name: '{{ .Values.NAME }}'
+    name: {{ .Values.NAME }}
