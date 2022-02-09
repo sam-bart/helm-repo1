@@ -1,0 +1,47 @@
+kind: Deployment
+apiVersion: v1
+metadata:
+  name: '{{ .Values.NAME }}'
+  annotations:
+    description: Defines how to deploy the application server
+    template.alpha.openshift.io/wait-for-ready: 'true'
+spec:
+  strategy:
+    type: Rolling
+  replicas: 1
+  selector:
+    name: '{{ .Values.NAME }}'
+  template:
+    metadata:
+      name: '{{ .Values.NAME }}'
+      labels:
+        name: '{{ .Values.NAME }}'
+    spec:
+      containers:
+        - name: django-example
+          image: ' '
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            timeoutSeconds: 3
+            initialDelaySeconds: 3
+            httpGet:
+              path: /
+              port: 8080
+          livenessProbe:
+            timeoutSeconds: 3
+            initialDelaySeconds: 30
+            httpGet:
+              path: /
+              port: 8080
+          env:
+            - name: APP_CONFIG
+              value: '{{ .Values.APP_CONFIG }}'
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: '{{ .Values.NAME }}'
+                  key: django-secret-key
+          resources:
+            limits:
+              memory: '{{ .Values.MEMORY_LIMIT }}'

@@ -1,0 +1,12 @@
+NAME: django-example
+NAMESPACE: openshift
+PYTHON_VERSION: 3.8-ubi8
+MEMORY_LIMIT: 512Mi
+SOURCE_REPOSITORY_URL: 'https://github.com/sclorg/django-ex.git'
+SOURCE_REPOSITORY_REF:
+CONTEXT_DIR:
+APPLICATION_DOMAIN:
+GITHUB_WEBHOOK_SECRET: jkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjk
+APP_CONFIG: 
+DJANGO_SECRET_KEY: jkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkjkababababab
+PIP_INDEX_URL:
